@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Conversor de WAV a MP3</title>
+    <!--Utilice Tailiwnd por CDN para no instalar nada en la web y no sea pesada-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="descripccion" content="Sube un archivo WAV y descargalo como MP3, todo con una interfaz clara y responsive"/>
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-900">
+    <header class="w-full border-b bg-white">
+        <div class="max-w-3xl mx-auto px-4 py-4">
+            <h1 class="text-2xl font-bold">Conversor WAV a MP3</h1>
+            <P class="text-sm text-gray-600 mt-1">
+                Sube un archivo <strong>.wav</strong>, elige un bitrate y obtén tu <strong>.mp3</strong>.
+                (La conversión real la hace FFmpeg/LAME en el servidor).
+            </P>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-8">
+        <!--Formulario principal-->
+        <form id="convert-form" class="space-y-6" aria-describedby="ayuda">
+            <!--Seleccion de archivo-->
+            <section class="space-y-2">
+                <label for="file" class="block text-sm font-medium"> Archivo WAV</label>
+                <input
+                    id="file"
+                    name="file"
+                    type="file"
+                    accept="audio/wav"
+                    class="block w-full text-sm file:mr-4 file:py-2 file:px-3 file:rounded-md file:border-0 file:bg-gray-900 file:text-white file:text-sm hover:file:bg-black"
+                    aria-describedby="file-help"
+                    required
+                />
+                <p id="file-help" class="text-xs text-gray-500">
+                    Solo .wav. Tamaño recomendado &lt; 100 MB.
+                </p>
+            </section>
+
+            <!-- Zona de Drag & Drop (solo visual por ahora)-->
+             <section class="space-y-2">
+                <span class="block text-sm font-medium">O arrastra el archivo aquí</span>
+                <div
+                    id="drop-area"
+                    class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center bg-white"
+                    role="region"
+                    aria-label="Zona para arrastrar archivos .wav"
+                    aria-describedby="drop-help"
+                    tabindex="0"
+                >
+                    <p class="text-sm text-gray-600">Arrastra y suelta tu archivo WAV</p>
+                    <p class="text-xs text-gray-400 mt-1">*Esta zona es decorativa por ahora. Activaremos la lógico luego.</p>
+                </div>
+                <p id="drop-help" class="text-xs text-gray-500">
+                    En el siguiente paso conectaremos esta zona para que funcione.
+                </p>
+             </section>
+
+             <!--Opciones-->
+             <section class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="bitrate" class="block text-sm font-medium">Bitrate</label>
+                    <select
+                        id="bitrate"
+                        name="bitrate"
+                        class="mt-1 w-full border rounded-md p-2 text-sm bg-white"
+                    >
+                    <option>125k</option>
+                    <option selected>192k</option>
+                    <option>256k</option>
+                    <option>320k</option>
+                    </select>
+                    <p class="text-xs text-gray-500 mt-1">192k es un buen equilibrio entre calidad y tamaño.</p>
+                </div>
+
+                <div class="flex items-end">
+                    <button
+                        id="btn-convertir"
+                        type="submit"
+                        class="w-full py-3 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Convertir
+                    </button> 
+                </div>
+
+                <!-- Estado / Mensajes -->
+                 <section aria-live="polite" class="space-y-3">
+                    <!-- Barra de progreso (oculta por ahora; la mostraremos con JS)-->
+                     <div id="progress-wrap" class="hidden">
+                        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div id="progress-bar" class="h-2 w-0 bg-gray-900"></div>
+                        </div>
+                        <p id="progress-text" class="text-xs text-gray-600 mt-1">Preparando...</p>
+                     </div>
+
+                     <!-- Mensajes -->
+                      <div id="msg" class="text-sm"></div>
+                      <!-- Sugerencia: usar clases de estado más adelante:
+                            success → text-green-700 bg-green-50 border border-green-200 rounded-md p-2
+                            error   → text-red-700 bg-red-50 border border-red-200 rounded-md p-2
+                            info    → text-blue-700 bg-blue-50 border border-blue-200 rounded-md p-2
+                        -->
+                 </section>
+
+                 <!-- Ayuda -->
+                  <section id="ayuda" class="bg-white border rounded-xl p-4">
+                    <h2 class="font-semibold text-sm mb-2">Ayuda</h2>
+                    <ul class="text-sm text-gray-700 list-disc pl-5 space-y-1">
+                        <li>Formatos aceptados: <strong>WAV</strong> (PCM 16/24-bit, 44.1/48 kHz).</li>
+                        <li>Bitrate recomendado: <strong>192k</strong> o <strong>256k</strong> para música; <strong>128k</strong> para voz.</li>
+                        <li>El botón “Convertir” no hace nada todavía. Lo conectaremos luego.</li>
+                    </ul>
+                  </section>            
+                </form>
+            </main>
+
+    <footer class="max-w-3xl mx-auto px-4 py-6 text-xs text-gray-500">
+        Hecho con ♥ para aprender. Accesible, simple y sin dependencias de build.
+    </footer>
+</body>
+</html>
