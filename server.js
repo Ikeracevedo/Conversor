@@ -5,21 +5,25 @@ const ffmpegPath = require("ffmpeg-static");
 const path = require("path");
 const fs = require("fs");
 
-// Configurar ffmpeg
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 const app = express();
 const upload = multer({ dest: "uploads/" });
 
-// Endpoint de conversión WAV → MP3
-app.post("/convert", upload.single("audio"), (req, res) => {
+// Endpoint: convertir WAV → MP3
+app.post("/convert", upload.single("file"), (req, res) => {
   if (!req.file) return res.status(400).send("No se subió ningún archivo");
 
+  const bitrate = req.body.bitrate || "192k"; // parámetro opcional
   const inputPath = req.file.path;
-  const outputPath = path.join("outputs", req.file.originalname + ".mp3");
+
+  // nombre base sin extensión
+  const baseName = path.parse(req.file.originalname).name;
+  const outputPath = path.join("outputs", baseName + ".mp3");
 
   ffmpeg(inputPath)
     .audioCodec("libmp3lame")
+    .audioBitrate(bitrate)
     .save(outputPath)
     .on("end", () => {
       res.download(outputPath, () => {
