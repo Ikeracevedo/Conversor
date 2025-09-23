@@ -6,6 +6,9 @@
     <title>Conversor de WAV a MP3</title>
     <!--Utilice Tailiwnd por CDN para no instalar nada en la web y no sea pesada-->
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #progress-bar { transition: width 300ms linear;}
+    </style>
     <meta name="descripccion" content="Sube un archivo WAV y descargalo como MP3, todo con una interfaz clara y responsive"/>
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900">
@@ -34,6 +37,7 @@
                     aria-describedby="file-help"
                     required
                 />
+                <p id="file-meta" class="text-xs text-gray-600"></p>
                 <p id="file-help" class="text-xs text-gray-500">
                     Solo .wav. Tamaño recomendado &lt; 100 MB.
                 </p>
@@ -67,7 +71,7 @@
                         name="bitrate"
                         class="mt-1 w-full border rounded-md p-2 text-sm bg-white"
                     >
-                    <option>125k</option>
+                    <option>128k</option>
                     <option selected>192k</option>
                     <option>256k</option>
                     <option>320k</option>
@@ -80,6 +84,7 @@
                         id="btn-convertir"
                         type="submit"
                         class="w-full py-3 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled
                     >
                         Convertir
                     </button> 
@@ -104,6 +109,28 @@
                         -->
                  </section>
 
+                <!-- Plantillas de mensajes (para copiar clases más tarde) -->
+                <!-- Success -->
+                <!--
+                <div class="text-green-700 bg-green-50 border border-green-200 rounded-md p-3">
+                    ¡Listo! Descarga completada.
+                </div>
+                -->
+
+                <!-- Error -->
+                <!--
+                <div class="text-red-700 bg-red-50 border border-red-200 rounded-md p-3">
+                    Ocurrió un error. Intenta de nuevo con un WAV más liviano.
+                </div>
+                -->
+
+                <!-- Info -->
+                <!--
+                <div class="text-blue-700 bg-blue-50 border border-blue-200 rounded-md p-3">
+                    Subiendo…
+                </div>
+                -->
+
                  <!-- Ayuda -->
                   <section id="ayuda" class="bg-white border rounded-xl p-4">
                     <h2 class="font-semibold text-sm mb-2">Ayuda</h2>
@@ -119,5 +146,6 @@
     <footer class="max-w-3xl mx-auto px-4 py-6 text-xs text-gray-500">
         Hecho con ♥ para aprender. Accesible, simple y sin dependencias de build.
     </footer>
+    <script src="./app.js" defer></script>
 </body>
 </html>

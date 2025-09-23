@@ -37,6 +37,15 @@ app.post("/convert", upload.single("file"), (req, res) => {
     });
 });
 
+// crea carpetas si no existen
+if (!fs.existsSync("uploads")) fs.mkdirSync("uploads");
+if (!fs.existsSync("outputs")) fs.mkdirSync("outputs");
+
+// servir frontend estático
+app.use(express.static("public"));
+
 app.listen(3000, () => {
   console.log("Servidor corriendo en http://localhost:3000");
 });
+
+
